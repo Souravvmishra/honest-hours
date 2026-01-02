@@ -152,7 +152,6 @@ export function NotificationPermissionAlert() {
             <Button
               onClick={handleRequestPermission}
               className="w-full"
-              disabled={permission === 'granted'}
             >
               {permission === 'default' 
                 ? 'Enable Notifications' 

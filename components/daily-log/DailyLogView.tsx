@@ -1,12 +1,14 @@
 'use client'
 
 import { useDailyLog } from '@/lib/hooks/useDailyLog'
+import { useSettings } from '@/lib/hooks/useSettings'
 import { MissingHoursSummary } from './MissingHoursSummary'
 import { LogEntry } from './LogEntry'
 import { DailyLogSkeleton } from '@/components/ui/skeleton'
 
 export function DailyLogView() {
   const { logData, loading } = useDailyLog()
+  const { settings } = useSettings()
 
   if (loading) {
     return <DailyLogSkeleton />
@@ -27,6 +29,7 @@ export function DailyLogView() {
           formattedDate={logData.formattedDate}
           missingCount={logData.missingCount}
           totalHours={logData.totalHours}
+          name={settings?.name}
         />
 
         <div className="space-y-0">

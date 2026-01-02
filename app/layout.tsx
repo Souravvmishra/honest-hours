@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Antic } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { SettingsProvider } from "@/lib/hooks/useSettings";
 
 const antic = Antic({ subsets: ['latin'], weight: '400', variable: '--font-sans' });
 
@@ -37,7 +38,9 @@ export default function RootLayout({
           disableTransitionOnChange
           storageKey="honesthours-theme"
         >
-          {children}
+          <SettingsProvider>
+            {children}
+          </SettingsProvider>
         </ThemeProvider>
       </body>
     </html>

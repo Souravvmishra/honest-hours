@@ -5,6 +5,7 @@ export interface Settings {
     dayStartHour: number // 0-23
     theme: 'light' | 'dark' | 'system'
     lastPromptTime?: number // timestamp
+    name?: string // user's name
 }
 
 const DEFAULT_SETTINGS: Settings = {

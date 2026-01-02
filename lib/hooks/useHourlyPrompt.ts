@@ -73,8 +73,8 @@ export function useHourlyPrompt() {
 
     try {
       const now = new Date()
-      const currentSlot = getCurrentHourSlot(now, settings.dayStartHour)
-      const previousSlot = getPreviousHourSlot(now, settings.dayStartHour)
+      const currentSlot = getCurrentHourSlot(now)
+      const previousSlot = getPreviousHourSlot(now)
 
       // Check if we already logged the previous hour
       const existingEntry = await getEntryByHourSlot(previousSlot)

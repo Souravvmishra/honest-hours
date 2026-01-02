@@ -1,5 +1,7 @@
 import { openDB, type HourEntry } from './db'
 
+export type { HourEntry }
+
 export async function createEntry(entry: Omit<HourEntry, 'id' | 'timestamp'>): Promise<HourEntry> {
     const db = await openDB()
     const transaction = db.transaction('hourEntries', 'readwrite')

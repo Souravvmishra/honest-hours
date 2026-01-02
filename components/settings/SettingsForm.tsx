@@ -12,6 +12,7 @@ import {
     SelectValue,
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import type { Settings } from '@/lib/storage/settings'
 
 interface SettingsFormProps {
@@ -23,11 +24,13 @@ export function SettingsForm({ settings, onSave }: SettingsFormProps) {
     const { setTheme: setNextTheme } = useTheme()
     const [dayStartHour, setDayStartHour] = useState(settings.dayStartHour)
     const [theme, setTheme] = useState(settings.theme)
+    const [name, setName] = useState(settings.name || '')
     const [isSaving, setIsSaving] = useState(false)
 
     useEffect(() => {
         setDayStartHour(settings.dayStartHour)
         setTheme(settings.theme)
+        setName(settings.name || '')
     }, [settings])
 
     // Update theme immediately when changed (no need to wait for save)
@@ -45,6 +48,7 @@ export function SettingsForm({ settings, onSave }: SettingsFormProps) {
             await onSave({
                 dayStartHour,
                 theme,
+                name: name.trim() || undefined,
             })
         } finally {
             setIsSaving(false)
@@ -60,6 +64,16 @@ export function SettingsForm({ settings, onSave }: SettingsFormProps) {
     return (
         <div className="space-y-6">
             <FieldGroup>
+                <Field>
+                    <FieldLabel>Name</FieldLabel>
+                    <Input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Enter your name"
+                    />
+                </Field>
+
                 <Field>
                     <FieldLabel>Day Start Time</FieldLabel>
                     <div onClick={(e) => e.stopPropagation()}>

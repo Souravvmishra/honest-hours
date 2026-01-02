@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import { IconCheck, IconX, IconAlertCircle, IconInfoCircle } from '@tabler/icons-react'
-import { Button } from './button'
 
 export type ToastType = 'success' | 'error' | 'info' | 'warning'
 
