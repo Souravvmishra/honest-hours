@@ -1,36 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# HonestHours
+
+A privacy-focused, open-source hourly time tracking application built with Next.js. Track your daily activities hour by hour with customizable prompts and local-only data storage.
+
+## Features
+
+- ⏰ **Hourly Prompts**: Get reminded to log your activities at customizable intervals
+- 📊 **Daily Log View**: Visual overview of your day with missing hours tracking
+- 🎨 **Theme Support**: Light, dark, and system theme modes
+- 💾 **Local Storage**: All data stored locally using IndexedDB - your privacy is protected
+- 📤 **Export Options**: Export your logs in CSV or JSON format (today or weekly)
+- ⚙️ **Customizable Settings**: Adjust prompt intervals, day start hour, and more
+- 📱 **PWA Ready**: Progressive Web App support for mobile and desktop
+- 🔔 **Notifications**: Optional browser notifications for hourly prompts
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ 
+- npm, yarn, pnpm, or bun
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/Souravvmishra/honest-hours.git
+cd honest-hours
+```
+
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+3. Run the development server:
 ```bash
 npm run dev
 # or
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Building for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Framework**: [Next.js 16](https://nextjs.org/) with App Router
+- **UI Components**: [Shadcn UI](https://ui.shadcn.com/) with [Radix UI](https://www.radix-ui.com/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Icons**: [Tabler Icons](https://tabler.io/icons)
+- **Storage**: IndexedDB (browser-native)
+- **Language**: TypeScript
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+honesthours/
+├── app/                    # Next.js app directory
+│   ├── layout.tsx         # Root layout
+│   └── page.tsx           # Main page
+├── components/            # React components
+│   ├── daily-log/        # Daily log components
+│   ├── export/           # Export functionality
+│   ├── hourly-prompt/     # Hourly prompt modal
+│   ├── notifications/    # Notification components
+│   ├── settings/         # Settings components
+│   └── ui/               # Shadcn UI components
+├── lib/                  # Core libraries
+│   ├── hooks/           # Custom React hooks
+│   ├── storage/         # IndexedDB storage utilities
+│   └── utils/           # Utility functions
+└── public/              # Static assets
+```
 
-## Deploy on Vercel
+## Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute to this project.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Code of Conduct
+
+This project adheres to a Code of Conduct. Please read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before participating.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Privacy
+
+HonestHours is designed with privacy in mind:
+- All data is stored locally in your browser
+- No data is sent to external servers
+- No tracking or analytics
+- Fully open source - you can audit the code yourself
+
+## Support
+
+If you encounter any issues or have questions:
+- Open an issue on [GitHub](https://github.com/Souravvmishra/honest-hours/issues)
+- Check existing issues and discussions
+
+## Acknowledgments
+
+- Built with [Next.js](https://nextjs.org/)
+- UI components from [Shadcn UI](https://ui.shadcn.com/)
+- Icons from [Tabler Icons](https://tabler.io/icons)
