@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react'
 import { getTodayEntries, type HourEntry } from '@/lib/storage/entries'
 import { getSettings } from '@/lib/storage/settings'
 import {
-  getTodayHourSlots,
+  getDateHourSlots,
   formatHourSlot,
   getDateString,
   formatDate,
@@ -25,7 +25,7 @@ export interface DailyLogData {
   totalHours: number
 }
 
-export function useDailyLog() {
+export function useDailyLog(selectedDate?: string) {
   const [logData, setLogData] = useState<DailyLogData | null>(null)
   const [loading, setLoading] = useState(true)
   const lastDateRef = useRef<string>('')
@@ -38,41 +38,48 @@ export function useDailyLog() {
   }, [logData])
 
   useEffect(() => {
-    loadDailyLog()
+    loadDailyLog(selectedDate)
     
-    // Check every minute if a new hour has started (only refresh if date/hour changed)
-    intervalRef.current = setInterval(() => {
-      const currentDate = getDateString()
-      if (currentDate !== lastDateRef.current) {
-        loadDailyLog()
-      }
-    }, 60 * 1000)
+    // Only auto-refresh if viewing today
+    const targetDate = selectedDate || getDateString()
+    const isToday = targetDate === getDateString()
+    
+    if (isToday) {
+      // Check every minute if a new hour has started (only refresh if date/hour changed)
+      intervalRef.current = setInterval(() => {
+        const currentDate = getDateString()
+        if (currentDate !== lastDateRef.current) {
+          loadDailyLog(selectedDate)
+        }
+      }, 60 * 1000)
+    }
 
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current)
       }
     }
-  }, [])
+  }, [selectedDate])
 
-  async function loadDailyLog() {
+  async function loadDailyLog(date?: string) {
     try {
-      const [settings, todayDate] = await Promise.all([
+      const targetDate = date || getDateString()
+      const [settings] = await Promise.all([
         getSettings(),
-        Promise.resolve(getDateString()),
       ])
 
       // Skip if date hasn't changed and we already have data
-      if (todayDate === lastDateRef.current && logDataRef.current && logDataRef.current.date === todayDate) {
+      if (targetDate === lastDateRef.current && logDataRef.current && logDataRef.current.date === targetDate) {
         setLoading(false)
         return
       }
 
-      lastDateRef.current = todayDate
+      lastDateRef.current = targetDate
 
       const dayStartHour = settings.dayStartHour
-      const hourSlots = getTodayHourSlots(dayStartHour)
-      const entries = await getTodayEntries(todayDate)
+      const targetDateObj = new Date(targetDate + 'T00:00:00')
+      const hourSlots = getDateHourSlots(targetDateObj, dayStartHour)
+      const entries = await getTodayEntries(targetDate)
 
       // Create a map of hourSlot -> entry
       const entryMap = new Map<string, HourEntry>()
@@ -94,8 +101,8 @@ export function useDailyLog() {
       const missingCount = logEntries.filter((e) => e.isMissing).length
 
       setLogData({
-        date: todayDate,
-        formattedDate: formatDate(new Date()),
+        date: targetDate,
+        formattedDate: formatDate(targetDateObj),
         entries: logEntries,
         missingCount,
         totalHours: hourSlots.length,
@@ -110,6 +117,6 @@ export function useDailyLog() {
   return {
     logData,
     loading,
-    refresh: loadDailyLog,
+    refresh: () => loadDailyLog(selectedDate),
   }
 }

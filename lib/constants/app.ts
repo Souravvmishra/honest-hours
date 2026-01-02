@@ -16,3 +16,8 @@ export const NOTIFICATION_BADGE = '/icon-192x192.png'
 // Service Worker
 export const SW_VERSION = '1.0.0'
 export const SW_CACHE_NAME = 'honesthours-cache-v1'
+
+// URLs
+export const SITE_URL = 'https://honest-hours.vercel.app/'
+export const GITHUB_URL = 'https://github.com/Souravvmishra/honest-hours'
+export const GITHUB_ISSUES_URL = 'https://github.com/Souravvmishra/honest-hours/issues'

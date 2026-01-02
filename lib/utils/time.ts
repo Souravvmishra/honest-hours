@@ -48,14 +48,21 @@ export function getHourSlot(date: Date): string {
 export function getTodayHourSlots(dayStartHour: number = 6): string[] {
     const now = new Date()
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    return getDateHourSlots(today, dayStartHour)
+}
+
+export function getDateHourSlots(date: Date, dayStartHour: number = 6): string[] {
+    const targetDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+    const now = new Date()
+    const isToday = getDateString(targetDate) === getDateString(now)
+
     const slots: string[] = []
-
-    // Start from day start hour
     const startHour = dayStartHour
-    const currentHour = now.getHours()
+    // For today, only go up to current hour; for past dates, show all hours up to 23
+    const endHour = isToday ? now.getHours() : 23
 
-    for (let hour = startHour; hour <= currentHour; hour++) {
-        const slotDate = new Date(today)
+    for (let hour = startHour; hour <= endHour; hour++) {
+        const slotDate = new Date(targetDate)
         slotDate.setHours(hour, 0, 0, 0)
         slots.push(getHourSlot(slotDate))
     }

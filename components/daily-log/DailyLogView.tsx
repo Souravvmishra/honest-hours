@@ -1,13 +1,16 @@
 'use client'
 
+import { useState } from 'react'
 import { useDailyLog } from '@/lib/hooks/useDailyLog'
 import { useSettings } from '@/lib/hooks/useSettings'
 import { MissingHoursSummary } from './MissingHoursSummary'
 import { LogEntry } from './LogEntry'
 import { DailyLogSkeleton } from '@/components/ui/skeleton'
+import { getDateString } from '@/lib/utils/time'
 
 export function DailyLogView() {
-  const { logData, loading } = useDailyLog()
+  const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined)
+  const { logData, loading } = useDailyLog(selectedDate)
   const { settings } = useSettings()
 
   if (loading) {
@@ -30,6 +33,8 @@ export function DailyLogView() {
           missingCount={logData.missingCount}
           totalHours={logData.totalHours}
           name={settings?.name}
+          selectedDate={selectedDate || getDateString()}
+          onDateChange={setSelectedDate}
         />
 
         <div className="space-y-0">

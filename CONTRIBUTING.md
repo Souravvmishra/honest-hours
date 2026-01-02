@@ -2,6 +2,8 @@
 
 Thank you for your interest in contributing to HonestHours! This document provides guidelines and instructions for contributing.
 
+🌐 **Live Site**: [https://honest-hours.vercel.app/](https://honest-hours.vercel.app/)
+
 ## Code of Conduct
 
 By participating in this project, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md).
@@ -115,6 +117,7 @@ By participating in this project, you agree to abide by our [Code of Conduct](CO
 ## Questions?
 
 If you have questions about contributing, feel free to:
+- Visit the [live site](https://honest-hours.vercel.app/)
 - Open an issue with the `question` label
 - Check existing discussions in Issues
 

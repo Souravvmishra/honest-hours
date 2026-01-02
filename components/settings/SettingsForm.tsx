@@ -13,7 +13,9 @@ import {
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { IconExternalLink } from '@tabler/icons-react'
 import type { Settings } from '@/lib/storage/settings'
+import { SITE_URL, GITHUB_URL } from '@/lib/constants/app'
 
 interface SettingsFormProps {
     settings: Settings
@@ -123,6 +125,29 @@ export function SettingsForm({ settings, onSave }: SettingsFormProps) {
                 <Button onClick={handleSave} disabled={isSaving} className="w-full">
                     {isSaving ? 'Saving...' : 'Save'}
                 </Button>
+            </div>
+
+            <div className="border-t pt-4 space-y-2">
+                <div className="flex flex-col gap-2 text-sm">
+                    <a
+                        href={SITE_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                        <IconExternalLink className="size-4" />
+                        Visit Live Site
+                    </a>
+                    <a
+                        href={GITHUB_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                        <IconExternalLink className="size-4" />
+                        View on GitHub
+                    </a>
+                </div>
             </div>
         </div>
     )

@@ -10,7 +10,6 @@ import { NotificationPermissionAlert } from '@/components/notifications/Notifica
 import { Logo } from '@/components/Logo'
 import { ErrorBoundary } from '@/components/error-boundary/ErrorBoundary'
 import { ToastContainer } from '@/components/ui/toast'
-import { ServiceWorkerUpdater } from '@/components/service-worker/ServiceWorkerUpdater'
 
 export default function Page() {
     useTheme()
@@ -19,7 +18,6 @@ export default function Page() {
 
     return (
         <ErrorBoundary>
-            <ServiceWorkerUpdater />
             <ToastContainer />
             {isDue && isActive && hourSlot && timeRange ? (
                 <HourlyPromptModal
@@ -29,7 +27,7 @@ export default function Page() {
                 />
             ) : (
                 <>
-                    <div className="fixed top-4 left-4 z-30">
+                    <div className="fixed top-4 left-4 z-30 hidden md:block">
                         <Logo width={40} height={40} priority />
                     </div>
                     <div className="fixed top-4 right-4 z-30 flex items-center gap-2">

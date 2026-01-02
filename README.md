@@ -2,6 +2,8 @@
 
 A privacy-focused, open-source hourly time tracking application built with Next.js. Track your daily activities hour by hour with customizable prompts and local-only data storage.
 
+🌐 **Live Site**: [https://honest-hours.vercel.app/](https://honest-hours.vercel.app/)
+
 ## Features
 
 - ⏰ **Hourly Prompts**: Get reminded to log your activities at customizable intervals
@@ -108,6 +110,7 @@ HonestHours is designed with privacy in mind:
 ## Support
 
 If you encounter any issues or have questions:
+- Visit the [live site](https://honest-hours.vercel.app/)
 - Open an issue on [GitHub](https://github.com/Souravvmishra/honest-hours/issues)
 - Check existing issues and discussions
 

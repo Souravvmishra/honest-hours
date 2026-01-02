@@ -25,37 +25,7 @@ export function useHourlyPrompt() {
   })
   const [settings, setSettings] = useState<Settings | null>(null)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
-  const serviceWorkerRegistrationRef = useRef<ServiceWorkerRegistration | null>(null)
   const isCheckingRef = useRef(false) // Prevent race conditions
-
-  async function initializeServiceWorker() {
-    if ('serviceWorker' in navigator) {
-      try {
-        const registration = await navigator.serviceWorker.register('/sw.js', {
-          scope: '/',
-          updateViaCache: 'none',
-        })
-        serviceWorkerRegistrationRef.current = registration
-
-        // Request notification permission
-        if ('Notification' in window) {
-          if (Notification.permission === 'default') {
-            await Notification.requestPermission()
-          }
-          
-          // Log warning if permission is denied
-          if (Notification.permission === 'denied') {
-            console.warn(
-              'Notification permission denied. Hourly prompts will not appear when the tab is closed.\n' +
-              'To enable: Open browser settings → Site permissions → Notifications → Allow'
-            )
-          }
-        }
-      } catch (error) {
-        console.error('Service worker registration failed:', error)
-      }
-    }
-  }
 
   async function loadSettings() {
     try {
@@ -92,21 +62,6 @@ export function useHourlyPrompt() {
         if (isDue && !prevState.isActive) {
           const timeRange = formatHourSlot(previousSlot)
 
-          // Show browser notification if tab is not visible
-          if (document.visibilityState === 'hidden' && serviceWorkerRegistrationRef.current) {
-            if (Notification.permission === 'granted') {
-              serviceWorkerRegistrationRef.current.showNotification('HonestHours', {
-                body: `What did you do in the last hour? (${timeRange})`,
-                icon: '/icon-192x192.png',
-                badge: '/icon-192x192.png',
-                tag: 'hourly-prompt',
-                requireInteraction: true,
-              }).catch((error) => {
-                console.error('Failed to show notification:', error)
-              })
-            }
-          }
-
           return {
             isDue: true,
             hourSlot: previousSlot,
@@ -131,7 +86,6 @@ export function useHourlyPrompt() {
   }, [settings])
 
   useEffect(() => {
-    initializeServiceWorker()
     loadSettings()
 
     return () => {
