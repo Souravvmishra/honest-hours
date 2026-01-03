@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog'
-import { IconBell, IconBellOff, IconAlertCircle } from '@tabler/icons-react'
+import { IconBellOff, IconAlertCircle } from '@tabler/icons-react'
 
 export function NotificationPermissionAlert() {
   const [permission, setPermission] = useState<NotificationPermission | null>(null)
@@ -144,7 +144,7 @@ export function NotificationPermissionAlert() {
               Notifications {permission === 'denied' ? 'Blocked' : 'Not Enabled'}
             </DialogTitle>
             <DialogDescription>
-              Hourly prompts won't appear when the tab is closed without notification permission.
+              Hourly prompts won&apos;t appear when the tab is closed without notification permission.
             </DialogDescription>
           </DialogHeader>
 
@@ -161,7 +161,7 @@ export function NotificationPermissionAlert() {
             {permission === 'denied' && (
               <div className="space-y-3 pt-2 border-t border-border">
                 <p className="text-xs text-muted-foreground">
-                  If the browser prompt didn't appear, you need to enable it manually:
+                  If the browser prompt didn&apos;t appear, you need to enable it manually:
                 </p>
                 <p className="text-sm font-medium">To enable in {instructions.browser}:</p>
                 <ol className="text-sm text-muted-foreground space-y-2 ml-4 list-decimal">

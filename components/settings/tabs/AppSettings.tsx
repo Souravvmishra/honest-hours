@@ -72,7 +72,7 @@ export function AppSettings() {
               </div>
             </div>
             {notificationPermission === 'granted' ? (
-              <Badge variant="success">
+              <Badge variant="default">
                 <IconCheck className="size-3" />
                 On
               </Badge>
@@ -133,7 +133,7 @@ export function AppSettings() {
               </div>
             </div>
             {isInstalled && (
-              <Badge variant="success">
+              <Badge variant="default">
                 <IconCheck className="size-3" />
                 Installed
               </Badge>

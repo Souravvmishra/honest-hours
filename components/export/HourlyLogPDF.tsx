@@ -57,7 +57,7 @@ function getAllHourSlotsForDateRange(
   const end = new Date(endDate + 'T23:59:59')
   const now = new Date()
 
-  let currentDate = new Date(start)
+  const currentDate = new Date(start)
   
   while (currentDate <= end) {
     const dateStr = getDateString(currentDate)
@@ -148,7 +148,7 @@ export const HourlyLogPDF = ({
       <Page size="A4" style={pdfStyles.page}>
         {/* Logo - top left, very small */}
         <View style={{ marginBottom: 8, alignItems: 'flex-start' }}>
-          <Image
+          <img
             src="/image_1_-removebg-preview.png"
             style={{ width: 32, height: 10 }}
           />
