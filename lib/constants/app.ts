@@ -7,11 +7,12 @@ export const LONG_PRESS_DURATION_MS = 3000 // 3 seconds
 
 export const APP_NAME = 'Honest Hours'
 export const APP_SHORT_NAME = 'Honest Hours'
+export const APP_VERSION = '0.1.0'
 
 // Notification constants
 export const NOTIFICATION_TAG = 'hourly-prompt'
-export const NOTIFICATION_ICON = '/icon-192x192.png'
-export const NOTIFICATION_BADGE = '/icon-192x192.png'
+export const NOTIFICATION_ICON = '/android-chrome-192x192.png'
+export const NOTIFICATION_BADGE = '/android-chrome-192x192.png'
 
 // Service Worker
 export const SW_VERSION = '1.0.0'

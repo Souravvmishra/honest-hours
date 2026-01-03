@@ -60,7 +60,7 @@ npm start
 ## Tech Stack
 
 - **Framework**: [Next.js 16](https://nextjs.org/) with App Router
-- **UI Components**: [Shadcn UI](https://ui.shadcn.com/) with [Radix UI](https://www.radix-ui.com/)
+- **UI Components**: [Shadcn UI](https://ui.shadcn.com/) with [Base UI](https://base-ui.com/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **Icons**: [Tabler Icons](https://tabler.io/icons)
 - **Storage**: IndexedDB (browser-native)

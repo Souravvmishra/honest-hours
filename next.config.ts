@@ -1,16 +1,29 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Use webpack instead of Turbopack to avoid ChunkLoadError
-
-  // Experimental features for better chunk handling
+  // Experimental features for better chunk handling and tree-shaking
   experimental: {
-    optimizePackageImports: ['@tabler/icons-react', '@radix-ui/react-slider', '@radix-ui/react-switch'],
+    optimizePackageImports: [
+      '@tabler/icons-react',
+      'date-fns',
+      '@radix-ui/react-tabs',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-select',
+    ],
   },
+
   // Ensure proper chunk loading
   onDemandEntries: {
     maxInactiveAge: 25 * 1000,
     pagesBufferLength: 2,
+  },
+
+  // Compiler optimizations
+  compiler: {
+    // Remove console.log in production
+    removeConsole: process.env.NODE_ENV === 'production' ? {
+      exclude: ['error', 'warn'],
+    } : false,
   },
 };
 

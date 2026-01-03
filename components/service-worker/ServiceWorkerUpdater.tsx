@@ -5,34 +5,81 @@ import { Button } from '@/components/ui/button'
 import { showToast } from '@/components/ui/toast'
 import { IconRefresh } from '@tabler/icons-react'
 
+// Type for Periodic Sync Manager (not in default TypeScript types)
+interface PeriodicSyncManager {
+  register(tag: string, options?: { minInterval: number }): Promise<void>
+  getTags(): Promise<string[]>
+  unregister(tag: string): Promise<void>
+}
+
+interface ServiceWorkerRegistrationWithSync extends ServiceWorkerRegistration {
+  periodicSync?: PeriodicSyncManager
+  sync?: {
+    register(tag: string): Promise<void>
+  }
+}
+
+async function registerPeriodicSync(registration: ServiceWorkerRegistrationWithSync) {
+  // Try to register periodic background sync (Chrome Android only)
+  if ('periodicSync' in registration && registration.periodicSync) {
+    try {
+      // Check if permission is granted
+      const status = await navigator.permissions.query({
+        name: 'periodic-background-sync' as PermissionName,
+      })
+
+      if (status.state === 'granted') {
+        await registration.periodicSync.register('hourly-check', {
+          minInterval: 60 * 60 * 1000, // 1 hour
+        })
+        console.log('Periodic background sync registered')
+      } else {
+        console.log('Periodic sync permission not granted:', status.state)
+      }
+    } catch (error) {
+      console.log('Periodic sync not supported:', error)
+    }
+  }
+}
+
 export function ServiceWorkerUpdater() {
   const [updateAvailable, setUpdateAvailable] = useState(false)
   const [registration, setRegistration] = useState<ServiceWorkerRegistration | null>(null)
 
   useEffect(() => {
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.ready.then((reg) => {
-        setRegistration(reg)
+      // Register the service worker
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then(async (reg) => {
+          console.log('Service Worker registered successfully')
+          setRegistration(reg)
 
-        // Check for updates
-        reg.addEventListener('updatefound', () => {
-          const newWorker = reg.installing
-          if (newWorker) {
-            newWorker.addEventListener('statechange', () => {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                // New service worker available
-                setUpdateAvailable(true)
-                showToast('New version available. Click to update.', 'info', 0)
-              }
-            })
-          }
+          // Register periodic sync for background notifications
+          await registerPeriodicSync(reg as ServiceWorkerRegistrationWithSync)
+
+          // Check for updates
+          reg.addEventListener('updatefound', () => {
+            const newWorker = reg.installing
+            if (newWorker) {
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  // New service worker available
+                  setUpdateAvailable(true)
+                  showToast('New version available. Click to update.', 'info', 0)
+                }
+              })
+            }
+          })
+
+          // Check for updates periodically
+          setInterval(() => {
+            reg.update()
+          }, 60 * 60 * 1000) // Check every hour
         })
-
-        // Check for updates periodically
-        setInterval(() => {
-          reg.update()
-        }, 60 * 60 * 1000) // Check every hour
-      })
+        .catch((error) => {
+          console.error('Service Worker registration failed:', error)
+        })
     }
   }, [])
 

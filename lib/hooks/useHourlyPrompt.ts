@@ -4,10 +4,10 @@ import { useEffect, useState, useRef, useCallback } from 'react'
 import { getSettings, updateSettings, type Settings } from '@/lib/storage/settings'
 import { getEntryByHourSlot } from '@/lib/storage/entries'
 import {
-  getCurrentHourSlot,
   getPreviousHourSlot,
   formatHourSlot,
 } from '@/lib/utils/time'
+import { sendHourlyPromptNotification, canSendNotifications } from '@/lib/utils/notifications'
 
 interface PromptState {
   isDue: boolean
@@ -43,7 +43,6 @@ export function useHourlyPrompt() {
 
     try {
       const now = new Date()
-      const currentSlot = getCurrentHourSlot(now)
       const previousSlot = getPreviousHourSlot(now)
 
       // Check if we already logged the previous hour
@@ -54,8 +53,17 @@ export function useHourlyPrompt() {
       const timeSinceLastPrompt = now.getTime() - lastPromptTime
       const intervalMs = 60 * 60 * 1000 // Fixed 60 minutes
 
-      const isDue =
-        !existingEntry && timeSinceLastPrompt >= intervalMs && document.visibilityState === 'visible'
+      const shouldPrompt = !existingEntry && timeSinceLastPrompt >= intervalMs
+      const isVisible = document.visibilityState === 'visible'
+
+      // If prompt is due but tab is hidden, send a notification
+      if (shouldPrompt && !isVisible && canSendNotifications()) {
+        const timeRange = formatHourSlot(previousSlot)
+        await sendHourlyPromptNotification(timeRange)
+      }
+
+      // Only show modal if tab is visible
+      const isDue = shouldPrompt && isVisible
 
       setPromptState((prevState) => {
         // Only update if state actually changed
@@ -108,10 +116,20 @@ export function useHourlyPrompt() {
       checkPromptStatus()
     }, 60 * 1000)
 
+    // Also check when tab becomes visible (user returns to the app)
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        // Small delay to ensure smooth transition
+        setTimeout(checkPromptStatus, 500)
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current)
       }
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
     }
   }, [settings, checkPromptStatus])
 

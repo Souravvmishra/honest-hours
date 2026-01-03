@@ -1,8 +1,15 @@
 import { type HourEntry } from '@/lib/storage/entries'
-import { formatHourSlot, formatDate, getDateString, getHourSlot } from './time'
-import { pdf } from '@react-pdf/renderer'
-import { HourlyLogPDF } from '@/components/export/HourlyLogPDF'
+import { formatHourSlot, formatDate, getDateString } from './time'
 import { downloadPDF, generateSafeFilename } from '@/lib/pdf/utils'
+
+// Lazy load PDF library (saves ~500KB on initial load)
+const loadPDFLibrary = async () => {
+  const [{ pdf }, { HourlyLogPDF }] = await Promise.all([
+    import('@react-pdf/renderer'),
+    import('@/components/export/HourlyLogPDF'),
+  ])
+  return { pdf, HourlyLogPDF }
+}
 
 export function exportToCSV(entries: HourEntry[]): string {
   const headers = ['Date', 'Time Slot', 'Text', 'Tag', 'Timestamp']
@@ -54,10 +61,13 @@ export async function exportToday(entries: HourEntry[], format: 'csv' | 'json' |
   const todayDateStr = getDateString(today)
 
   if (format === 'pdf') {
+    // Lazy load PDF library
+    const { pdf, HourlyLogPDF } = await loadPDFLibrary()
+
     // Get settings for dayStartHour
     const { getSettings } = await import('@/lib/storage/settings')
     const settings = await getSettings()
-    
+
     const pdfDoc = (
       <HourlyLogPDF
         entries={entries}
@@ -93,10 +103,13 @@ export async function exportWeek(entries: HourEntry[], format: 'csv' | 'json' | 
   const endDateStr = getDateString(weekEnd)
 
   if (format === 'pdf') {
+    // Lazy load PDF library
+    const { pdf, HourlyLogPDF } = await loadPDFLibrary()
+
     // Get settings for dayStartHour
     const { getSettings } = await import('@/lib/storage/settings')
     const settings = await getSettings()
-    
+
     const subtitle = `${startStr} to ${endStr}`
     const pdfDoc = (
       <HourlyLogPDF

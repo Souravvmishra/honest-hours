@@ -4,21 +4,17 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SettingsProvider } from "@/lib/hooks/useSettings";
 
-const antic = Antic({ subsets: ['latin'], weight: '400', variable: '--font-sans' });
+const antic = Antic({ 
+  subsets: ['latin'], 
+  weight: '400', 
+  variable: '--font-sans',
+  display: 'swap', // Prevent font blocking render
+  preload: true,
+});
 
 export const metadata: Metadata = {
   title: "HonestHours",
   description: "Enforced hourly self-reporting to make unproductive time visible and uncomfortable.",
-  icons: {
-    icon: [
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/favicon-black-no-bg.ico', sizes: 'any' },
-    ],
-    apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-    ],
-  },
 };
 
 export default function RootLayout({
