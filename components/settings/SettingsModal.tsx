@@ -9,15 +9,17 @@ import {
 } from '@/components/ui/dialog'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useSettings } from '@/lib/hooks/useSettings'
-import { IconSettings, IconAdjustments, IconDownload, IconDeviceMobile } from '@tabler/icons-react'
+import { IconSettings, IconAdjustments, IconDownload, IconDeviceMobile, IconInfoCircle } from '@tabler/icons-react'
 import { Button } from '@/components/ui/button'
 import { showToast } from '@/components/ui/toast'
 import { GeneralSettings } from './tabs/GeneralSettings'
 import { ExportSettings } from './tabs/ExportSettings'
 import { AppSettings } from './tabs/AppSettings'
+import { AboutModal } from './AboutModal'
 
 export function SettingsModal() {
   const [isOpen, setIsOpen] = useState(false)
+  const [isAboutOpen, setIsAboutOpen] = useState(false)
   const { settings, update } = useSettings()
 
   async function handleSave(updates: Parameters<typeof update>[0]) {
@@ -50,8 +52,18 @@ export function SettingsModal() {
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="max-w-md">
-          <DialogHeader>
+          <DialogHeader className="flex flex-row items-center justify-between space-y-0 pr-8">
             <DialogTitle>Settings</DialogTitle>
+            <Button
+              variant="ghost"
+              size="icon-xs"
+              onClick={() => setIsAboutOpen(true)}
+              aria-label="About"
+              title="About Honest Hours"
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <IconInfoCircle className="size-4" />
+            </Button>
           </DialogHeader>
           <Tabs defaultValue="general" className="w-full">
             <TabsList className="w-full">
@@ -80,6 +92,9 @@ export function SettingsModal() {
           </Tabs>
         </DialogContent>
       </Dialog>
+
+      {/* About Modal */}
+      <AboutModal open={isAboutOpen} onOpenChange={setIsAboutOpen} />
     </>
   )
 }

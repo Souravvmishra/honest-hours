@@ -4,10 +4,10 @@ import { StyleSheet } from '@react-pdf/renderer'
 export const pdfStyles = StyleSheet.create({
   // Page base
   page: {
-    padding: 20,
-    fontSize: 11,
+    padding: 16,
+    fontSize: 8,
     fontFamily: 'CourierPrime',
-    lineHeight: 1.5,
+    lineHeight: 1.3,
   },
 
   // Header/Letterhead

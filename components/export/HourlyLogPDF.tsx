@@ -9,28 +9,28 @@ import { format } from 'date-fns'
 // Register fonts
 registerPDFFonts()
 
-// Entry list styles matching UI exactly
+// Entry list styles matching UI exactly - compact version
 const entryStyles = StyleSheet.create({
   entryContainer: {
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
     borderBottomColor: '#e5e5e5',
-    paddingVertical: 12,
+    paddingVertical: 4,
   },
   timeRange: {
-    fontSize: 9,
+    fontSize: 6,
     fontWeight: 'medium',
     color: '#666',
-    marginBottom: 6,
+    marginBottom: 2,
     fontFamily: 'CourierPrime',
   },
   entryText: {
-    fontSize: 11,
-    lineHeight: 1.6,
+    fontSize: 7,
+    lineHeight: 1.3,
     color: '#000',
     fontFamily: 'CourierPrime',
   },
   missingText: {
-    fontSize: 11,
+    fontSize: 7,
     color: '#dc2626', // destructive color
     fontFamily: 'CourierPrime',
   },
@@ -147,38 +147,38 @@ export const HourlyLogPDF = ({
     <Document>
       <Page size="A4" style={pdfStyles.page}>
         {/* Logo - top left, very small */}
-        <View style={{ marginBottom: 16, alignItems: 'flex-start' }}>
+        <View style={{ marginBottom: 8, alignItems: 'flex-start' }}>
           <Image
             src="/image_1_-removebg-preview.png"
-            style={{ width: 40, height: 13 }}
+            style={{ width: 32, height: 10 }}
           />
         </View>
 
         {/* Date Heading - matching UI */}
         <View
           style={{
-            marginBottom: 16,
-            borderBottomWidth: 1,
+            marginBottom: 8,
+            borderBottomWidth: 0.5,
             borderBottomColor: '#e5e5e5',
-            paddingBottom: 12,
+            paddingBottom: 6,
           }}
         >
           <Text
             style={{
-              fontSize: 16,
+              fontSize: 10,
               fontWeight: 'semibold',
-              marginBottom: 6,
+              marginBottom: 3,
               fontFamily: 'CourierPrime',
             }}
           >
             {subtitle || title}
           </Text>
           {missingCount > 0 ? (
-            <Text style={{ fontSize: 11, color: '#dc2626', fontFamily: 'CourierPrime' }}>
+            <Text style={{ fontSize: 7, color: '#dc2626', fontFamily: 'CourierPrime' }}>
               {missingCount} {missingCount === 1 ? 'hour' : 'hours'} unaccounted – face it
             </Text>
           ) : (
-            <Text style={{ fontSize: 11, color: '#666', fontFamily: 'CourierPrime' }}>
+            <Text style={{ fontSize: 7, color: '#666', fontFamily: 'CourierPrime' }}>
               All {totalHours} {totalHours === 1 ? 'hour' : 'hours'} accounted for
             </Text>
           )}
@@ -186,8 +186,8 @@ export const HourlyLogPDF = ({
 
         {/* Entries List - matching UI format exactly */}
         {sortedDates.length === 0 ? (
-          <View style={{ marginTop: 20 }}>
-            <Text style={[pdfStyles.bodyText, { fontFamily: 'CourierPrime' }]}>
+          <View style={{ marginTop: 10 }}>
+            <Text style={[pdfStyles.bodyText, { fontFamily: 'CourierPrime', fontSize: 7 }]}>
               No hours logged yet
             </Text>
           </View>
@@ -197,13 +197,13 @@ export const HourlyLogPDF = ({
               const dateEntries = entriesByDate.get(date) || []
 
               return (
-                <View key={date} style={{ marginBottom: 16 }}>
+                <View key={date} style={{ marginBottom: 6 }}>
                   {sortedDates.length > 1 && (
                     <Text
                       style={{
-                        fontSize: 13,
+                        fontSize: 8,
                         fontWeight: 'bold',
-                        marginBottom: 8,
+                        marginBottom: 4,
                         fontFamily: 'CourierPrime',
                       }}
                     >
@@ -237,14 +237,14 @@ export const HourlyLogPDF = ({
         <View
           style={{
             marginTop: 'auto',
-            paddingTop: 20,
-            borderTopWidth: 1,
+            paddingTop: 10,
+            borderTopWidth: 0.5,
             borderTopColor: '#e5e5e5',
           }}
         >
           <Text
             style={{
-              fontSize: 8,
+              fontSize: 6,
               textAlign: 'center',
               color: '#666',
               fontFamily: 'CourierPrime',
