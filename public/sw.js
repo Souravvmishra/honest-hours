@@ -1,7 +1,7 @@
 // Service Worker for HonestHours PWA
 // Handles background notifications when tab is closed
 
-const CACHE_VERSION = 'v1.0.1'
+const CACHE_VERSION = 'v1.2.1'
 const CACHE_NAME = `honesthours-cache-${CACHE_VERSION}`
 
 // Static assets to cache immediately
